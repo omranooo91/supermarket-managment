@@ -10,6 +10,11 @@ let = count = document.getElementById('count');
 let = category = document.getElementById('category');
 let = submit = document.getElementById('submit');
 
+//status add and update button
+let stat = 'add';
+let fakeIndex;
+
+
 function get_total() {
 
     if (price.value != '') {
@@ -45,14 +50,25 @@ submit.onclick = function () {
         category: category.value
     }
 
-    if(newProducts.count > 1){
-        for(i = 0; i<newProducts.count; i++){
+
+    if (stat === 'add') {
+        if (newProducts.count > 1) {
+            for (i = 0; i < newProducts.count; i++) {
+                productInformation.push(newProducts);
+            }
+        } else {
             productInformation.push(newProducts);
+
         }
+
     }else{
-        productInformation.push(newProducts);
+        productInformation[fakeIndex] = newProducts;
+        stat = 'add';
+        submit.innerHTML = 'Add Product';
+        count.style.display = 'block';
 
     }
+
 
     localStorage.setItem('prouducts', JSON.stringify(productInformation));
 
@@ -90,7 +106,7 @@ function getData() {
         <td>${productInformation[i].discount}</td>
         <td>${productInformation[i].total}</td>
         <td>${productInformation[i].category}</td>
-        <td><button id="Update">Update</button></td>
+        <td><button id="Update" onclick="updateProduct(${i})" >Update</button></td>
         <td><button id="delete" onclick="deleteSingleProduct(${i})">Delete</button></td>
         
     </tr>
@@ -106,7 +122,7 @@ function getData() {
         removeAll.style.display = 'none';
     }
 }
- //
+
 getData();
 
 
@@ -120,10 +136,30 @@ function deleteSingleProduct(i) {
 
 
 // function for delete all products
-function deleteAll(){
+function deleteAll() {
     localStorage.clear();
     productInformation.splice(0);
     getData();
 }
 
 
+//function for update product
+
+function updateProduct(i) {
+
+    title.value = productInformation[i].title;
+    price.value = productInformation[i].price;
+    tax.value = productInformation[i].tax;
+    ads.value = productInformation[i].ads;
+    discount.value = productInformation[i].discount;
+    get_total();
+    count.style.display = 'none';
+    category.value = productInformation[i].category;
+    submit.innerHTML = 'Update Product';
+    stat = 'update';
+    fakeIndex = i;
+    scroll({
+        top: 0,
+        behavior: 'smooth'
+    })
+}
