@@ -51,28 +51,31 @@ submit.onclick = function () {
     }
 
 
-    if (stat === 'add') {
-        if (newProducts.count > 1) {
-            for (i = 0; i < newProducts.count; i++) {
+    if (title.value != '' && price.value != '' && category.value != '' && newProducts.count < 51) {
+        if (stat === 'add') {
+            if (newProducts.count > 1) {
+                for (i = 0; i < newProducts.count; i++) {
+                    productInformation.push(newProducts);
+                    clearFields();
+                }
+            } else {
                 productInformation.push(newProducts);
+                clearFields();
             }
+
         } else {
-            productInformation.push(newProducts);
+            productInformation[fakeIndex] = newProducts;
+            stat = 'add';
+            submit.innerHTML = 'Add Product';
+            count.style.display = 'block';
 
         }
-
-    } else {
-        productInformation[fakeIndex] = newProducts;
-        stat = 'add';
-        submit.innerHTML = 'Add Product';
-        count.style.display = 'block';
-
     }
 
 
     localStorage.setItem('prouducts', JSON.stringify(productInformation));
 
-    clearFields();
+
     total.style.background = 'red';
     getData();
 
@@ -98,7 +101,7 @@ function getData() {
     let data = '';
     for (i = 0; i < productInformation.length; i++) {
         data += `        <tr>
-        <td>${i}</td>
+        <td>${i+1}</td>
         <td>${productInformation[i].title}</td>
         <td>${productInformation[i].price}</td>
         <td>${productInformation[i].tax}</td>
