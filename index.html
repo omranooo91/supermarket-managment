@@ -34,10 +34,10 @@
         <!-- Output start-->
         <div class="outputs">
             <div class="searchBlock">
-                <input type="text" id="search" placeholder="search">
+                <input type="text" id="search" onkeyup="searchProduct(this.value)" placeholder="search">
                 <div class="btnSearch">
-                    <button id="searchByTitle">Search By Title</button>
-                    <button id="searchByCategory">Search By Category</button>
+                    <button id="searchByTitle" onclick="getSearchStat(this.id)">Search By Title</button>
+                    <button id="searchByCategory" onclick="getSearchStat(this.id)">Search By Category</button>
                 </div>
             </div>
             <div class="removeAll">
@@ -57,7 +57,7 @@
                     <th>delete</th>
                 </tr>
 
-                <tbody id="tbody" >
+                <tbody id="tbody">
 
 
 

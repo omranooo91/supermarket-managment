@@ -40,14 +40,14 @@ if (localStorage.prouducts != null) {
 
 submit.onclick = function () {
     let newProducts = {
-        title: title.value,
+        title: title.value.toLowerCase(),
         price: price.value,
         tax: tax.value,
         ads: ads.value,
         discount: discount.value,
         total: total.innerHTML,
         count: count.value,
-        category: category.value
+        category: category.value.toLowerCase()
     }
 
 
@@ -61,7 +61,7 @@ submit.onclick = function () {
 
         }
 
-    }else{
+    } else {
         productInformation[fakeIndex] = newProducts;
         stat = 'add';
         submit.innerHTML = 'Add Product';
@@ -162,4 +162,80 @@ function updateProduct(i) {
         top: 0,
         behavior: 'smooth'
     })
+}
+
+
+// Search Function
+let searchStat = 'title';
+let search = document.getElementById('search');
+function getSearchStat(id) {
+    search.focus();
+    search.value = '';
+    getData();
+    if (id == 'searchByTitle') {
+        searchStat = 'title';
+        search.placeholder = 'Search By Title';
+
+
+    } else {
+        searchStat = 'category';
+        search.placeholder = 'Search By Category';
+    }
+
+}
+
+function searchProduct(value) {
+    let data = '';
+    if (searchStat == 'title') {
+
+        for (i = 0; i < productInformation.length; i++) {
+
+
+
+            if (productInformation[i].title.includes(value.toLowerCase())) {
+                data += `        <tr>
+            <td>${i}</td>
+            <td>${productInformation[i].title}</td>
+            <td>${productInformation[i].price}</td>
+            <td>${productInformation[i].tax}</td>
+            <td>${productInformation[i].ads}</td>
+            <td>${productInformation[i].discount}</td>
+            <td>${productInformation[i].total}</td>
+            <td>${productInformation[i].category}</td>
+            <td><button id="Update" onclick="updateProduct(${i})" >Update</button></td>
+            <td><button id="delete" onclick="deleteSingleProduct(${i})">Delete</button></td>
+            
+        </tr>
+    `;
+
+            }
+        }
+    } else {
+
+        for (i = 0; i < productInformation.length; i++) {
+
+
+
+            if (productInformation[i].category.includes(value.toLowerCase())) {
+                data += `        <tr>
+            <td>${i}</td>
+            <td>${productInformation[i].title}</td>
+            <td>${productInformation[i].price}</td>
+            <td>${productInformation[i].tax}</td>
+            <td>${productInformation[i].ads}</td>
+            <td>${productInformation[i].discount}</td>
+            <td>${productInformation[i].total}</td>
+            <td>${productInformation[i].category}</td>
+            <td><button id="Update" onclick="updateProduct(${i})" >Update</button></td>
+            <td><button id="delete" onclick="deleteSingleProduct(${i})">Delete</button></td>
+            
+        </tr>
+    `;
+
+            }
+        }
+
+    }
+    document.getElementById('tbody').innerHTML = data;
+
 }
